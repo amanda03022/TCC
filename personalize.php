@@ -302,7 +302,7 @@
         document.getElementById('brushSize').addEventListener('input', function () {
             updateBrushSize();
         });
-<!---->
+//teste
         document.getElementById('brushColor').addEventListener('input', function () {
             updateBrushColor();
         });
