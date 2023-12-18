@@ -85,7 +85,6 @@ if(isset($_SESSION['id']) && trim($_SESSION['id'])!=""){
     text-decoration:none;
     }
     </style>
-<div class="background">
         <header>
             <div class="logo">
                 <a style="font-family: Brookshire; color: #4C3B34; font-size: 40px;" href="index.php" >Uníque.</a>

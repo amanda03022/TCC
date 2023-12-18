@@ -9,19 +9,21 @@
 
 
 <body>
-<?php
+    <?php
     include_once("menu.php");
   ?>
-
+<div class='background'>
     <div class="Meio">
-        <h1 style="font-family: DMSerifDisplay;  font-size: 50px;">Diferentes Sonhos...</h1>
-        <h2 style="font-family: DMSerifDisplay;  font-size: 30px;">Exclusivas ideias!</h2>
-        <P>Confira os produtos que estão em destaque esse mês 🌺</P>
+        <h1 style="font-family: Brookshire;  font-size: 50px; color: #4C3B34; font-weight: normal;">Diferentes Sonhos...</h1>
+        <h2 style= "font-family: Brookshire;  font-size: 30px; color: #4C3B34; font-weight: normal;">Exclusivas ideias!</h2>
+        <P>Confira os produtos que estão em destaque esse mês </P>
         <button> <a href="#novascategorias" class="btn">Produtos em destaque</a></button>
     </div>
     <!--Meio-->
+  
+
     </div>
-    <!--background-->
+   
     <section>
         <h1 style="font-family: DMSerifDisplay">NOSSOS PRODUTOS </h1>
         <div class="Container-card-1">

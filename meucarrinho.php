@@ -1,6 +1,7 @@
 
 <?php
 include_once("conexao.php");
+session_start();
 ?>
 <!DOCTYPE html>
 <html>
@@ -73,6 +74,7 @@ if (isset($_SESSION['id'])) {
            }
        }
    }
+
    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['finalizar_pedido'])) {
     // Inserir informações do pedido na tabela
     foreach ($_SESSION['carrinho'] as $id => $qtd) {
