@@ -8,9 +8,6 @@ include_once("conexao.php");
 <head>
     <?php
 
-   
-   session_start();
-
 if (isset($_SESSION['id'])) {
     $user_id = $_SESSION['id'];
 }

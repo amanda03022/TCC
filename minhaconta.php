@@ -136,6 +136,16 @@ if(!isset($_SESSION['id']) || trim($_SESSION['id'])==""){
                 <input type="checkbox" name="manterlogado" id="manterlogado" value="" />
                 <label for="manterlogado">Manter-me logado</label>
               </p>
+              <p>
+              <!-- a href=".vendor/esqueceuasenha.php" -->
+              <a class="btn" href="vendor/esqueceuasenha.php">
+              Esqueci minha senha
+              </a>
+
+                  <!-- button onclick="location.href='http://www.w3schools.com';">Esqueci minha senha</button custom-logo-link>
+              
+              <!-- input type="button" enable="true" onclick=".vendor/esqueceuasenha.php" value="Esqueci minha senha"/ -->
+              </p>
 
               <p>
                 <input type="submit" value="Logar" />

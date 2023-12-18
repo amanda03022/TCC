@@ -157,24 +157,6 @@ if (!empty($userEmail)) {
 
                 <label for="estado">Selecione o estado de destino: </label>
     <select id="estado" onchange="calcularFrete()">>
-        <script>
-            const estados = [
-                "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará",
-                "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão",
-                "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará",
-                "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
-                "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia",
-                "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
-            ];
-
-            const select = document.getElementById("estado");
-            estados.forEach(estado => {
-                const option = document.createElement("option");
-                option.value = estado.toLowerCase().replace(/\s/g, '');
-                option.textContent = estado;
-                select.appendChild(option);
-            });
-        </script>
     </select><br>
     <p id="resultado"></p>
 
@@ -193,7 +175,7 @@ if (!empty($userEmail)) {
                 <form>
                     <label for="cpf">CPF:</label>
                     <input type="text" id="cpf" name="cpf" maxlength="14" onkeyup="validarCPF()">
-                    <button type="submit" id="saveButton">Salvar</button>
+                    <button type="submit" id="saveButton"  >Salvar</button>
                   </form>
                   <p id="mensagem"></p>
             
@@ -201,14 +183,16 @@ if (!empty($userEmail)) {
 <script>
 document.getElementById("saveButton").addEventListener("click", function() {
     // Coloque aqui o código que deve ser executado quando o botão for clicado
-    console.log("Botão Salvar clicado");
+    
+    console.log("Botão Salvar clicado|!!!!!");
+    salvarDadosEndereco();
 });
 </script>
 
             </form>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
-    function salvarDados() {
+    function salvarDadosEndereco() {
         console.log("salvarDados foi chamada");
         var nome = $("#name").val();
         var telefone = $("#phone").val();
@@ -218,7 +202,9 @@ document.getElementById("saveButton").addEventListener("click", function() {
         var rua = $("#rua").val();
         var bairro = $("#neighborhood").val();
         var cpf = $("#cpf").val();
-
+        var mensagem='Nome: '+nome+'  - telefone: '+telefone+' - estado: '+ estado + ' - cep: '+cep+' - cidade: '+cidade+' - rua: '+rua+' bairro: '+bairro+' cpf: '+cpf;
+        console.log(mensagem);
+        //alert(mensagem);
         $.ajax({
             type: "POST",
             url: "salvarendereco.php",
@@ -234,6 +220,12 @@ document.getElementById("saveButton").addEventListener("click", function() {
             },
             success: function (response) {
                 console.log(response);
+                console.log("Dados gravados com sucesso!");
+                // Aqui você pode adicionar qualquer lógica adicional após salvar os dados
+            },
+            error: function (response) {
+                console.log(response);
+                console.log("Deu ERRO!!!!!!!!!!!! Tenta arrumar acima!");
                 // Aqui você pode adicionar qualquer lógica adicional após salvar os dados
             }
         });
@@ -242,6 +234,24 @@ document.getElementById("saveButton").addEventListener("click", function() {
     }
 </script>
         </div>
+        <script>
+            const estados = [
+                "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará",
+                "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão",
+                "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará",
+                "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
+                "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia",
+                "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
+            ];
+
+            const select = document.getElementById("estado");
+            estados.forEach(estado => {
+                const option = document.createElement("option");
+                option.value = estado.toLowerCase().replace(/\s/g, '');
+                option.textContent = estado;
+                select.appendChild(option);
+            });
+        </script>
         <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
     function salvarDados() {
@@ -315,7 +325,7 @@ document.getElementById("saveButton").addEventListener("click", function() {
         <p>Subtotal: R$ <span id="subtotal"><?php echo number_format($_SESSION['total'], 2, ',', '.'); ?></span></p>
             <p>Valor do Cupom: - R$ <span id="coupon-value">0.00</span></p>
             <p id="valor_frete" >Valor do Frete: - R$ <span function="calcularFrete">0.00</span></p>
-            <p>Valor total - R$ <span id="coupon-value">0.00</span></p>
+            <p>Valor total - R$ <span id="total">0.00</span></p>
             <div class="coupon">
                 <label for="coupon-code">Código do Cupom:</label>
                 <input type="text" id="coupon-code" name="coupon-code">
@@ -374,18 +384,25 @@ document.getElementById("saveButton").addEventListener("click", function() {
         }
       </script>
 <script>
-        const subtotalElement = document.getElementById('subtotal');
+        var subtotalElement = document.getElementById('subtotal');
         const couponValueElement = document.getElementById('coupon-value');
         const totalElement = document.getElementById('total');
         const couponCodeInput = document.getElementById('coupon-code');
         const applyCouponButton = document.getElementById('apply-coupon');
+        var freteCalculado = document.getElementById("valor_frete").innerText;
 
         const initialSubtotal = 100; // Subtotal fictício
-        let subtotal = initialSubtotal;
+        
+        subtotalElement='<?php echo $_SESSION['total']?>';
+        //console.debug(subtotalElement);
+        let subtotal = subtotalElement;
         let couponValue = 0;
 
+        totalElement.textContent = (subtotal - couponValue).toFixed(2);
+
         function updateTotal() {
-            totalElement.textContent = (subtotal - couponValue + frete).toFixed(2);
+            frete = freteCalculado;
+            totalElement.textContent = (parseFloat(subtotal - couponValue + frete)).toFixed(2);
         }
 
         applyCouponButton.addEventListener('click', () => {
@@ -399,7 +416,8 @@ document.getElementById("saveButton").addEventListener("click", function() {
         });
 
         updateTotal();
-    </script>
+
+</script>
 
     <div class="clear"></div>
 
@@ -478,7 +496,9 @@ document.getElementById("saveButton").addEventListener("click", function() {
 
             
             document.getElementById("valor_frete").innerText = `Frete: R$ ${frete.toFixed(2)}`;
-            setFrete(frete);
+            freteCalculado=frete;
+            updateTotal();
+            //setFrete(frete);
         }
     </script>
 
