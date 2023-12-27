@@ -1,29 +1,29 @@
 <?php
     include_once("menu.php");
-  ?>
-  <?php
-
-// Obter o e-mail do usuário a partir da sessão
-$userEmail = isset($_SESSION['email']) ? $_SESSION['email'] : '';
-
-// Inicializar a variável $userName
-$userName = '';
-
-// Verificar se o e-mail está definido
-if (!empty($userEmail)) {
-    $sql = "SELECT nome FROM usuarios WHERE email = '$userEmail'";
-    $result = $conn->query($sql);
-
-    // Verificar se a consulta retornou um resultado
-    if ($result && $result->num_rows == 1) {
-        $row = $result->fetch_assoc();
-        $userName = $row['nome'];
-    }
-}
 ?>
+
+<?php
+    // Obter o e-mail do usuário a partir da sessão
+    $userEmail = isset($_SESSION['email']) ? $_SESSION['email'] : '';
+
+    // Inicializar a variável $userName
+    $userName = '';
+
+    // Verificar se o e-mail está definido
+    if (!empty($userEmail)) {
+        $sql = "SELECT nome FROM usuarios WHERE email = '$userEmail'";
+        $result = $conn->query($sql);
+
+        // Verificar se a consulta retornou um resultado
+        if ($result && $result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            $userName = $row['nome'];
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,29 +36,29 @@ if (!empty($userEmail)) {
         }
 
         .container {
-            display: flex;
-            justify-content: space-between;
-            max-width: 800px;
-            margin: 40px auto;
-            padding: 50px;
-            float: left;
+        display: flex;
+        justify-content: space-between;
+        max-width: 1200px; /* Ajuste conforme necessário */
+        margin: 40px auto;
+        padding: 50px;
+    }
 
-        }
+    .form-container {
+        width: 48%; /* Ajuste conforme necessário */
+        padding-right: 20px;
+    }
 
-        .form-container {
-            width: 100%;
-            padding-right: 20px;
-
-
-        }
-
-        .summary-container {
-            width: 50%;
-            padding-left: 200px;
-            margin:95px auto;
-            border-left: 1px solid #ccc;
-            float: right;
-        }
+    .summary-container {
+        width: 38%; /* Ajuste conforme necessário */
+        margin-left: 8%; /* Ajuste conforme necessário para afastar da borda esquerda */
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 5px;
+            display: inline-block;
+            vertical-align: top;
+            border-radius: 8px;
+    
+    }
 
         label {
             display: block;
@@ -76,10 +76,6 @@ if (!empty($userEmail)) {
             border-radius: 5px;
         }
 
-        input[type="radio"] {
-            margin-right: 10px;
-        }
-
         button {
             background-color: #492731;
             color: white;
@@ -89,14 +85,9 @@ if (!empty($userEmail)) {
             cursor: pointer;
         }
 
-        button:hover {
-            background-color: #492731;
-        }
-
         .summary {
             background-color: #f9f9f9;
             padding: 20px;
-
         }
 
         .coupon {
@@ -104,7 +95,6 @@ if (!empty($userEmail)) {
         }
 
         div {
-
             display: inline-block;
         }
 
@@ -117,8 +107,6 @@ if (!empty($userEmail)) {
             margin: 100px auto;
             padding: -100px;
             margin-left: -250px;
-          
-
         }
 
         .payment-option {
@@ -131,19 +119,41 @@ if (!empty($userEmail)) {
             max-width: 30px;
             margin-right: 10px;
         }
-        .button-container {
-    border: 1px solid #ccc; /* Adicione uma borda ao redor do contêiner */
-    padding: 10px; /* Adicione algum espaçamento interno ao redor do botão */
-    display: inline-block; /* Garante que o contêiner não ocupe a largura total */
-}
 
+        .button-container {
+            border: 1px solid #ccc;
+            padding: 10px;
+            display: inline-block;
+        }
         
+        .pagamento-box {
+            width: 28%; /* Ajuste conforme necessário */
+            margin-left: 2%; /* Ajuste conforme necessário para afastar da borda esquerda */
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            padding: 20px;
+            display: inline-block;
+            vertical-align: top;
+            border-radius: 10px;
+        }
+
+        .payment-options {
+            margin-top: 10px; /* Espaçamento superior entre o título e as opções de pagamento */
+        }
+
+        .payment-option {
+            margin-bottom: 10px; /* Espaçamento entre as opções de pagamento */
+        }
+
+        #efetuarPagamento {
+            margin-top: 10px; /* Espaçamento superior entre as opções de pagamento e o botão */
+            display: block; /* Garante que o botão esteja em uma nova linha */
+        }
+       
     </style>
-     <link rel="stylesheet" href="menu.css">
 </head>
 
 <body>
-    <!--Teste!-->
     <div class="container">
         <div class="form-container">
             <h2>Endereço de Envio</h2>
@@ -151,17 +161,43 @@ if (!empty($userEmail)) {
             <form id="formCadastro" action="salvarendereco.php" method="post" onsubmit="return salvarDados()">
                 <label for="name">Nome e Sobrenome:</label>
                 <input type="text" id="name" name="name" value="<?php echo $userName; ?>" required>
-
                 <label for="phone">Telefone:</label>
                 <input type="tel" id="phone" name="phone" required>
 
-                <label for="estado">Selecione o estado de destino: </label>
-    <select id="estado" onchange="calcularFrete()">>
-    </select><br>
-    <p id="resultado"></p>
+                <label for="estado">Selecione o estado de destino:</label>
+                <select id="estado" onchange="calcularFrete()">
+                <option value="acre">Acre</option>
+    <option value="alagoas">Alagoas</option>
+    <option value="amapa">Amapá</option>
+    <option value="amazonas">Amazonas</option>
+    <option value="bahia">Bahia</option>
+    <option value="ceara">Ceará</option>
+    <option value="distritofederal">Distrito Federal</option>
+    <option value="espiritosanto">Espírito Santo</option>
+    <option value="goias">Goiás</option>
+    <option value="maranhao">Maranhão</option>
+    <option value="matogrosso">Mato Grosso</option>
+    <option value="matogrossodosul">Mato Grosso do Sul</option>
+    <option value="minasgerais">Minas Gerais</option>
+    <option value="para">Pará</option>
+    <option value="paraiba">Paraíba</option>
+    <option value="parana">Paraná</option>
+    <option value="pernambuco">Pernambuco</option>
+    <option value="piaui">Piauí</option>
+    <option value="riodejaneiro">Rio de Janeiro</option>
+    <option value="riograndedonorte">Rio Grande do Norte</option>
+    <option value="riograndedosul">Rio Grande do Sul</option>
+    <option value="rondonia">Rondônia</option>
+    <option value="roraima">Roraima</option>
+    <option value="santacatarina">Santa Catarina</option>
+    <option value="saopaulo">São Paulo</option>
+    <option value="sergipe">Sergipe</option>
+    <option value="tocantins">Tocantins</option>
+                </select>
+                <p id="resultado"></p>
 
-     <label for="cep">CEP/Código Postal:</label>
-  <input type="text" id="cep" name="cep" required>
+                <label for="cep">CEP/Código Postal:</label>
+                <input type="text" id="cep" name="cep" required onkeydown="if (event.keyCode === 13) preencherEndereco();" onblur="preencherEndereco();">
 
                 <label for="city">Cidade:</label>
                 <input type="text" id="city" name="city" required>
@@ -175,156 +211,93 @@ if (!empty($userEmail)) {
                 <form>
                     <label for="cpf">CPF:</label>
                     <input type="text" id="cpf" name="cpf" maxlength="14" onkeyup="validarCPF()">
-                    <button type="submit" id="saveButton"  >Salvar</button>
-                  </form>
-                  <p id="mensagem"></p>
-            
-
-<script>
-document.getElementById("saveButton").addEventListener("click", function() {
-    // Coloque aqui o código que deve ser executado quando o botão for clicado
-    
-    console.log("Botão Salvar clicado|!!!!!");
-    salvarDadosEndereco();
-});
-</script>
-
+                    <button type="submit" id="saveButton">Salvar</button>
+                </form>
+                <p id="mensagem"></p>
             </form>
+
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <!-- Script de preencher informações a partir do CEP-->
 <script>
-    function salvarDadosEndereco() {
-        console.log("salvarDados foi chamada");
-        var nome = $("#name").val();
-        var telefone = $("#phone").val();
-        var estado = $("#estado").val();
-        var cep = $("#cep").val();
-        var cidade = $("#city").val();
-        var rua = $("#rua").val();
-        var bairro = $("#neighborhood").val();
-        var cpf = $("#cpf").val();
-        var mensagem='Nome: '+nome+'  - telefone: '+telefone+' - estado: '+ estado + ' - cep: '+cep+' - cidade: '+cidade+' - rua: '+rua+' bairro: '+bairro+' cpf: '+cpf;
-        console.log(mensagem);
-        //alert(mensagem);
-        $.ajax({
-            type: "POST",
-            url: "salvarendereco.php",
-            data: {
-                nome: nome,
-                telefone: telefone,
-                estado: estado,
-                cep: cep,
-                cidade: cidade,
-                rua: rua,
-                bairro: bairro,
-                cpf: cpf
-            },
-            success: function (response) {
-                console.log(response);
-                console.log("Dados gravados com sucesso!");
-                // Aqui você pode adicionar qualquer lógica adicional após salvar os dados
-            },
-            error: function (response) {
-                console.log(response);
-                console.log("Deu ERRO!!!!!!!!!!!! Tenta arrumar acima!");
-                // Aqui você pode adicionar qualquer lógica adicional após salvar os dados
-            }
-        });
+    function preencherEndereco() {
+        var cep = document.getElementById("cep").value.replace(/\D/g, '');
 
-        return false; // Isso impede o envio normal do formulário
+        if (cep.length === 8) {
+            // Consulta o ViaCEP para obter os dados do endereço
+            var url = `https://viacep.com.br/ws/${cep}/json/`;
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.erro) {
+                        document.getElementById("rua").value = data.logradouro;
+                        document.getElementById("city").value = data.localidade;
+                        document.getElementById("neighborhood").value = data.bairro;
+                    } else {
+                        alert("CEP não encontrado.");
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar dados do CEP:', error);
+                });
+        }
     }
 </script>
+
+            <script>
+                document.getElementById("saveButton").addEventListener("click", function() {
+                    console.log("Botão Salvar clicado!");
+                    salvarDadosEndereco();
+                });
+
+                function salvarDadosEndereco() {
+                    console.log("salvarDados foi chamada");
+                    var nome = $("#name").val();
+                    var telefone = $("#phone").val();
+                    var estado = $("#estado").val();
+                    var cep = $("#cep").val();
+                    var cidade = $("#city").val();
+                    var rua = $("#rua").val();
+                    var bairro = $("#neighborhood").val();
+                    var cpf = $("#cpf").val();
+                    var metodoPagamento = $("#payment-method").val();
+
+                    $.ajax({
+                        type: "POST",
+                        url: "salvarendereco.php",
+                        data: {
+                            nome: nome,
+                            telefone: telefone,
+                            estado: estado,
+                            cep: cep,
+                            cidade: cidade,
+                            rua: rua,
+                            bairro: bairro,
+                            cpf: cpf,
+                            metodoPagamento: metodoPagamento
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            console.log("Dados gravados com sucesso!");
+                        },
+                        error: function(response) {
+                            console.log(response);
+                            console.log("Deu ERRO! Tenta arrumar acima!");
+                        }
+                    });
+
+                    return false;
+                }
+            </script>
         </div>
-        <script>
-            const estados = [
-                "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará",
-                "Distrito Federal", "Espírito Santo", "Goiás", "Maranhão",
-                "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará",
-                "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro",
-                "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia",
-                "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
-            ];
-
-            const select = document.getElementById("estado");
-            estados.forEach(estado => {
-                const option = document.createElement("option");
-                option.value = estado.toLowerCase().replace(/\s/g, '');
-                option.textContent = estado;
-                select.appendChild(option);
-            });
-        </script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    function salvarDados() {
-        
-        var nome = $("#name").val();
-        var telefone = $("#phone").val();
-        var estado = $("#estado").val();
-        var cep = $("#cep").val();
-        var cidade = $("#city").val();
-        var rua = $("#rua").val();
-        var bairro = $("#neighborhood").val();
-        var cpf = $("#cpf").val();
-
-  
-        $.ajax({
-            type: "POST",
-            url: "salvarendereco.php",
-            data: {
-                nome: nome,
-                telefone: telefone,
-                estado: estado,
-                cep: cep,
-                cidade: cidade,
-                rua: rua,
-                bairro: bairro,
-                cpf: cpf
-            },
-            success: function (response) {
-                
-                console.log(response);
-            }
-        });
-
-        return false;
-    }
-</script>
-
-        <script>
-            (function(){ 
- 
- const cep = document.querySelector("input[name=cep]");
-
- cep.addEventListener('blur', e=> {
-      const value = cep.value.replace(/[^0-9]+/, '');
-      const url = `https://viacep.com.br/ws/${value}/json/`;
-
-    fetch(url)
-   .then( response => response.json())
-   .then( json => {
-              
-       if( json.logradouro ) {
-             document.querySelector('input[name=rua]').value = json.logradouro;
-             document.querySelector('input[name=neighborhood]').value = json.bairro;
-             document.querySelector('input[name=city]').value = json.localidade;
-             document.querySelector('input[name=estado]').value = json.uf;
-       }
-      
-    
-   });
-});
-
-})();
-        </script>
     </div>
-    
 
     <div class="summary-container">
         <h2>Resumo do Pedido</h2>
-        <br>
         <div class="summary">
-        <p>Subtotal: R$ <span id="subtotal"><?php echo number_format($_SESSION['total'], 2, ',', '.'); ?></span></p>
+            <p>Subtotal: R$ <span id="subtotal"><?php echo number_format($_SESSION['total'], 2, ',', '.'); ?></span></p>
             <p>Valor do Cupom: - R$ <span id="coupon-value">0.00</span></p>
-            <p id="valor_frete" >Valor do Frete: - R$ <span function="calcularFrete">0.00</span></p>
+            <p id="valor_frete">Valor do Frete: - R$ <span function="calcularFrete">0.00</span></p>
             <p>Valor total - R$ <span id="total">0.00</span></p>
             <div class="coupon">
                 <label for="coupon-code">Código do Cupom:</label>
@@ -421,37 +394,7 @@ document.getElementById("saveButton").addEventListener("click", function() {
 
     <div class="clear"></div>
 
-    <div class="pagamento">
-        <h2>Métodos de pagamento</h2>
-        <br>
-        <div class="payment-option">
-            <input type="radio" id="pix" name="payment" value="pix">
-            <img class="payment-image" src="pixlogo.png" alt="PIX">
-            <label for="pix">PIX</label>
-        </div>
-        <div class="payment-option">
-            <input type="radio" id="credit-card" name="payment" value="credit-card">
-            <img class="payment-image" src="cartão.png" alt="Cartão de Crédito">
-            <label for="credit-card">Cartão de Crédito</label>
-        </div>
-        <div class="payment-option">
-            <input type="radio" id="debit-card" name="payment" value="debit-card">
-            <img class="payment-image" src="cartão.png" alt="Cartão de Débito">
-            <label for="debit-card">Cartão de Débito</label>
-        </div>
-        <div class="payment-option">
-            <input type="radio" id="boleto" name="payment" value="boleto">
-            <img class="payment-image" src="boleto.png" alt="Boleto">
-            <label for="boleto">Boleto</label>
-        </div>
-    <div>
-    <div class="button-container">
-    <a href="finalpedido.php" class="cart-btn">Finalizar pedido</a>
-</div>
-    </div>
-    </div>
-
-    <script>
+      <script>
         const taxaPorKm = 0.05; 
         const distanciasPorEstado = {
             acre: 720,
@@ -487,7 +430,7 @@ document.getElementById("saveButton").addEventListener("click", function() {
             const estadoSelecionado = document.getElementById("estado").value;
 
             if (!distanciasPorEstado.hasOwnProperty(estadoSelecionado)) {
-                document.getElementById("resultado").innerText = "Selecione um estado válido.";
+                document.getElementById("resultado").innerText = "";
                 return;
             }
 
@@ -501,8 +444,71 @@ document.getElementById("saveButton").addEventListener("click", function() {
             //setFrete(frete);
         }
     </script>
+        <!-- Forma de Pagamento -->
+        <div class="pagamento-box">
+            <h2>Forma de Pagamento</h2>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="debit-card" value="debit-card">
+                    <label for="debit-card">Cartão de Débito</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="credit-card" value="credit-card">
+                    <label for="credit-card">Cartão de Crédito</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="boleto" value="boleto">
+                    <label for="boleto">Boleto Bancário</label>
+                </div>
+                <div class="payment-option">
+                    <input type="radio" name="payment-method" id="pix" value="pix">
+                    <label for="pix">PIX</label>
+                </div>
+                <button id="efetuarPagamento" onclick="efetuarPagamento()">Efetuar Pagamento</button>
+                <div id="resultadoPagamento"></div>
+            </div>
+        </div>
+    </div>
 
+    <div class="clear"></div>
+
+
+    <script>
+        function efetuarPagamento() {
+            var metodoPagamento = document.querySelector('input[name="payment-method"]:checked');
+
+            if (metodoPagamento) {
+                metodoPagamento = metodoPagamento.value;
+
+                if (metodoPagamento === 'boleto') {
+                     // Redirecionar para a página boleto.php com os parâmetros na URL
+            redirecionarParaBoleto();
+                    document.getElementById('resultadoPagamento').innerText = 'Boleto gerado.';
+                } else if (metodoPagamento === 'pix') {
+                      // Redirecionar para a página de confirmação do PIX
+                     window.location.href = 'confirmacao_pix.php';
+                    document.getElementById('resultadoPagamento').innerText = 'Código PIX gerado.';
+                } else {
+                    // Lógica para cartão de débito ou crédito
+                       window.location.href = 'confirmacao-cartao.php';
+                    document.getElementById('resultadoPagamento').innerText = 'Pagamento com cartão.';
+                }
+            } else {
+                document.getElementById('resultadoPagamento').innerText = 'Selecione uma forma de pagamento.';
+            }
+        }
+        //Código de geração de boleto
+       // Adicione esta função para redirecionar para o boleto.php com os parâmetros
+function redirecionarParaBoleto() {
+    var nome = $("#name").val();
+    var cpf = $("#cpf").val();
+    var valor = parseFloat(totalElement.textContent).toFixed(2);
+
+    // Redirecionar para a página boleto.php com os parâmetros na URL
+    window.location.href = "boleto.php?nome=" + encodeURIComponent(nome) + "&cpf=" + encodeURIComponent(cpf) + "&valor=" + encodeURIComponent(valor);
+}
+
+    </script>
 
 </body>
-
 </html>
